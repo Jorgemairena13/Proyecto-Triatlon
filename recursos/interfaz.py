@@ -45,12 +45,11 @@ menu_atletas = """
 # Menu de registros
 menu_registros = """
 ===== REGISTROS Y RESULTADOS =====
-1. Inscribir atleta a evento
-2. Registrar tiempos de natación
-3. Registrar tiempos de ciclismo
-4. Registrar tiempos de carrera
-5. Calcular tiempo total
-6. Volver al menú principal
+1. Registrar tiempos de natación
+2. Registrar tiempos de ciclismo
+3. Registrar tiempos de carrera
+4. Calcular tiempo total
+5. Volver al menú principal
 """
 
 # Menu de estadisticas
