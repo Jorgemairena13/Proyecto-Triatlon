@@ -22,7 +22,7 @@ Este proyecto es un sistema de gestión para eventos de triatlón que permite ad
 
 1. Clonar el repositorio:
 ```bash
-git clone [URL_DEL_REPOSITORIO]
+git clone https://github.com/Jorgemairena13/Proyecto-Triatlon
 ```
 
 2. Instalar las dependencias:
@@ -78,4 +78,4 @@ Las contribuciones son bienvenidas. Por favor, asegúrate de:
 
 ## Licencia
 
-Este proyecto está bajo la Licencia MIT. Ver el archivo `LICENSE` para más detalles.
+
