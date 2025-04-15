@@ -1,4 +1,5 @@
 from rich.console import Console
+from datetime import timedelta
 
 console = Console()
 
@@ -10,17 +11,48 @@ class Atleta:
         self.apellido = apellido
         self.fecha_nacimiento = fecha_nacimiento
         self.genero = genero
+        self.tiempo_natacion = timedelta(hours=0, minutes=0, seconds=0)
+        self.tiempo_ciclismo = timedelta(hours=0, minutes=0, seconds=0)
+        self.tiempo_carrera = timedelta(hours=0, minutes=0, seconds=0)
+        self.tiempo_final = timedelta(hours=0, minutes=0, seconds=0)
+
+    def establecer_tiempo_natacion(self,tiempo):
+        self.tiempo_natacion = tiempo
+
+    def establecer_tiempo_ciclismo(self,tiempo):
+        self.tiempo_ciclismo = tiempo
+
+    def establecer_tiempo_carrera(self,tiempo):
+        self.tiempo_carrera = tiempo
+
+    def calcular_tiempo_total(self):
+        tiempo_natacion = self.tiempo_natacion 
+        tiempo_ciclismos = self.tiempo_ciclismo
+        tiempo_carrera = self.tiempo_carrera
+        tiempo_total = tiempo_natacion + tiempo_ciclismos + tiempo_carrera
+        self.tiempo_final = tiempo_total
+        console.print(self.tiempo_final)
 
 
     def mostrar_atleta(self):
-            '''Muestra todos las  caractericticas del atleta '''
+        '''Muestra todos las  caractericticas del atleta '''
             
-            console.print("")
-            console.print(f"DNI: {self.dni}")
-            console.print(f"Nombre: {self.nombre}")
-            console.print(f"Apellido: {self.apellido}")
-            console.print(f"Fecha de nacimiento: {self.fecha_nacimiento}")
-            console.print(f"Genero: {self.genero}")
+        console.print("")
+        console.print(f"DNI: {self.dni}")
+        console.print(f"Nombre: {self.nombre}")
+        console.print(f"Apellido: {self.apellido}")
+        console.print(f"Fecha de nacimiento: {self.fecha_nacimiento}")
+        console.print(f"Genero: {self.genero}")
+
+    def mostrar_tiempos(self):
+        """Muestra los tiempos del atleta"""
+        console.print("")
+        console.print(f"Tiempos de {self.nombre}")
+        console.print(f"Tiempo natacion: {self.tiempo_natacion}")
+        console.print(f"Tiempo ciclismo: {self.tiempo_ciclismo}")
+        console.print(f"Tiempo carrera: {self.tiempo_carrera}")
+        console.print(f"Tiempo total: {self.calcular_tiempo_total()}")
+        
 
     def eliminar_atleta(self,dni):
         pass
@@ -55,9 +87,7 @@ class Triatlon():
 
     # Constructor con un diccionario para añadir los eventos y los participantes
     def __init__(self):
-        self.eventos = {
-    
-}
+        self.eventos = {}
 
     # Agrega un obejego de la clase evento al dic con clave en el id
     def agregar_evento(self,id_evento, nombre, fecha, lugar, distancia):
@@ -84,15 +114,16 @@ class Triatlon():
                 
                 for dni,participante in evento.participantes.items():
                     participante.mostrar_atleta()
+                    
         else:
             console.print('No hay eventos creados')
 
     def editar_evento(self,id_evento, nombre, fecha, lugar, distancia):
-        if self.eventos:
+        if id_evento in self.eventos:
             del self.eventos[id_evento]
             self.agregar_evento(id_evento, nombre, fecha, lugar, distancia)
         else:
-            console.print('No hay eventos que editar')
+            console.print('No existe el evento que quieres editar')
 
 
     def buscar_atleta(self,id_evento,dni):
@@ -140,17 +171,66 @@ class Triatlon():
         # Mostrar los datos actualizados
         atleta.mostrar_atleta()
     
-    def registrar_tiempo_natacion(self):
-        pass
+    def registrar_tiempo_natacion(self,id_evento,dni,tiempo):
+        """
+        Comprueba evento al que se quiere agregar y que el atleta exista y el tiempo del atleta
+        """
 
-    def registrar_tiempo_ciclismo(self):
-        pass
+        # Combrobamos que el evento exista si no le devolvemos el mensaje de que no existe
+        if id_evento not in self.eventos:
+            console.print(f"El evento con ID {id_evento} no existe")
+            return
+        
+        # Combrobamos que el dni exista en ese evento donde vamos a  registrar el timepo
+        if dni not in self.eventos[id_evento].participantes:
+            console.print(f"No existe un atleta con DNI {dni} en este evento")
+            return
+        
+        self.eventos[id_evento].participantes[dni].establecer_tiempo_natacion(tiempo) 
 
-    def registrar_tiempo_carrera(self):
-        pass
 
-    def calcular_tiempo_total(self):
-        pass
+    def registrar_tiempo_ciclismo(self,id_evento,dni,tiempo):
+        # Comprobamos que el evento exista
+        if id_evento not in self.eventos:
+            console.print(f"El evento con ID {id_evento} no existe")
+            return
+        
+        # Combrobamos que el dni exista en ese evento donde vamos a  registrar el timepo
+        if dni not in self.eventos[id_evento].participantes:
+            console.print(f"No existe un atleta con DNI {dni} en este evento")
+            return
+        # Registramos el tiempo del atleta
+        self.eventos[id_evento].participantes[dni].establecer_tiempo_ciclismo(tiempo)
+
+    def registrar_tiempo_carrera(self,id_evento,dni,tiempo):
+
+        # Comprobamos que el evento exista
+        if id_evento not in self.eventos:
+            console.print(f"El evento con ID {id_evento} no existe")
+            return
+        
+        # Combrobamos que el dni exista en ese evento donde vamos a  registrar el timepo
+        if dni not in self.eventos[id_evento].participantes:
+            console.print(f"No existe un atleta con DNI {dni} en este evento")
+            return
+        
+        # Agregamos el tiempo a ese atleta
+        self.eventos[id_evento].participantes[dni].establecer_tiempo_carrera(tiempo)
+
+    def calcular_tiempo_total(self,id_evento,dni):
+        
+        # Comprobamos que el evento exista
+        if id_evento not in self.eventos:
+            console.print(f"El evento con ID {id_evento} no existe")
+            return
+        
+        # Combrobamos que el dni exista en ese evento donde vamos a  registrar el timepo
+        if dni not in self.eventos[id_evento].participantes:
+            console.print(f"No existe un atleta con DNI {dni} en este evento")
+            return
+        
+        # Calculamos el tiempo total del atleta
+        self.eventos[id_evento].participantes[dni].calcular_tiempo_total()
 
 
 

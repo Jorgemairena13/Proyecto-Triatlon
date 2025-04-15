@@ -15,18 +15,37 @@ from rich.progress import Progress, SpinnerColumn, BarColumn, TextColumn
 # Menu principal
 menu_principal = ("""
            
-[#2e27ff]1. Gestión de eventos[/]
+🏁 [#2e27ff]1. Gestión de eventos[/]
                   
-[#9a27ff]2. Gestión de atletas[/]
+👟 [#9a27ff]2. Gestión de atletas[/]
                   
-[#ff27f8]3. Registros y resultados[/]
+📊 [#ff27f8]3. Registros y resultados[/]
                   
-[#ff278c]4. Informes y estadísticas[/]
+📈 [#ff278c]4. Informes y estadísticas[/]
                   
-[#ff2e27]5. Salir[/]
+❌ [#ff2e27]5. Salir[/]
 
 
 """)
+
+menu_principal = '''
+╔════════════════════════════════════════════════╗
+║        🏁  M E N Ú   P R I N C I P A L         ║
+╠════════════════════════════════════════════════╣
+║                                                ║
+║[#2e27ff]  1. 🏃  Gestión de eventos[/]                     ║
+║                                                ║
+║[#9a27ff]  2. 👟  Gestión de atletas[/]                     ║
+║                                                ║
+║[#ff27f8]  3. 📊  Registros y resultados[/]                 ║
+║                                                ║
+║[#ff278c]  4. 📈  Informes y estadísticas[/]                ║
+║                                                ║
+║[#ff2e27]  5. ❌  Salir[/]                                  ║
+║                                                ║
+╚════════════════════════════════════════════════╝
+'''
+
 
 menu_alineado = Panel(
     Align.center(menu_principal),
@@ -35,15 +54,16 @@ menu_alineado = Panel(
     expand= True)
 
 # Menu de los eventos
-menu_eventos = """
-[#2e27ff]1. Crear nuevo evento
+menu_eventos = ("""
+🆕 [#2e27ff]1. Crear nuevo evento[/]
+                
+✏️  [#9a27ff]2. Editar eventos[/]
+                
+📅 [#ff27f8]3. Ver calendario[/]
+                
+🔙 [#ff2e27]4. Volver al menú principal[/]
+""")
 
-[#9a27ff]2. Editar eventos 
-
-[#ff27f8]3. Ver calendario
-
-[#ff2e27]4. Volver al menú principal[/]
-"""
 
 menu_eventos_alineado = Panel(
     Align.center(menu_eventos),
@@ -53,13 +73,13 @@ menu_eventos_alineado = Panel(
 
 # Menu de atletas
 menu_atletas = """
-[#2e27ff]1. Registrar atleta
+📝 [#2e27ff]1. Registrar atleta
 
-[#9a27ff]2. Buscar atleta
+🔍 [#9a27ff]2. Buscar atleta
 
-[#ff27f8]3. Editar atleta
+✏️  [#ff27f8]3. Editar atleta
 
-[#ff2e27]4. Volver al menú principal[/]
+🔙 [#ff2e27]4. Volver al menú principal[/]
 """
 
 menu_atletas_alineado = Panel(
@@ -70,15 +90,15 @@ menu_atletas_alineado = Panel(
 
 # Menu de registros
 menu_registros = """
-[#2e27ff]1. Registrar tiempos de natación
+🏊 [#2e27ff]1. Registrar tiempos de natación
 
-[#9a27ff]2. Registrar tiempos de ciclismo
+🚴 [#9a27ff]2. Registrar tiempos de ciclismo
 
-[#ff27f8]3. Registrar tiempos de carrera
+🏃 [#ff27f8]3. Registrar tiempos de carrera
 
-[#ff278c]4. Calcular tiempo total
+⏱️  [#ff278c]4. Calcular tiempo total
 
-[#ff2e27]5. Volver al menú principal[/]
+🔙 [#ff2e27]5. Volver al menú principal[/]
 """
 
 menu_registros_alineado = Panel(
@@ -89,11 +109,11 @@ menu_registros_alineado = Panel(
 
 # Menu de estadisticas
 menu_estadisticas = """
-[#2e27ff]1. Ver clasificación general
+🏆 [#2e27ff]1. Ver clasificación general
 
-[#9a27ff]2. Ver clasificación por categorías
+📊 [#9a27ff]2. Ver clasificación por categorías
 
-[#ff2e27]3. Volver al menú principal[/]
+🔙 [#ff2e27]3. Volver al menú principal[/]
 """
 menu_estadisticas_alineado = Panel(
     Align.center(menu_estadisticas),

@@ -3,6 +3,8 @@ from recursos.eventos import *
 from recursos.registros import *
 from recursos.estadisticas import *
 from os import system
+from datetime import timedelta
+
 console = Console()
 
 triatlon = Triatlon()
@@ -72,7 +74,9 @@ def main():
                 if opcion == '1':
                     
                     # Pedir datos del atleta
-                    evento = int(prompt('ID del evento al que se inscribe: '))
+                    completar = list(map(str, triatlon.eventos.keys())) # Usamos la fucnion map para pasar a str y que se pueda usar el auto completado
+                    ids = FuzzyWordCompleter(completar)
+                    id_evento = int(prompt('ID del evento al que se inscribe: ',completer=ids))
                     dni = prompt('Introduce el dni del atleta: ')
                     nombre = prompt('Introduce el nombre del atleta: ').capitalize()
                     apellido = prompt('Introduce el apellido del atleta: ').capitalize()
@@ -80,7 +84,7 @@ def main():
                     genero = prompt('Introduce el genero del atleta [M/F]').upper()
                     
                     # Agregamos el participante con el metodo
-                    triatlon.agregar_participante(dni,nombre,apellido,fecha_nacimiento,genero,evento)
+                    triatlon.agregar_participante(dni,nombre,apellido,fecha_nacimiento,genero,id_evento)
                     prompt()
                 elif opcion == '2':
                     id_evento = int(prompt('Introduce el id del evento donde participa: '))
@@ -92,32 +96,59 @@ def main():
 
                     console.print('Editar atleta')
                     # Pedimos los datos para editar el atleta
-                    id_evento = int(prompt('Introduce el evento al que pertenece el atleta: '))
-                    dni = prompt('Introduce el dni del aleta a editar:  ')
+                    completar = list(map(str, triatlon.eventos.keys())) # Usamos la fucnion map para pasar a str y que se pueda usar el auto completado
+                    # Auto completado para que sea mas facil la interactividad
+                    ids = FuzzyWordCompleter(completar)
+                    id_evento = int(prompt('Introduce el evento al que pertenece el atleta: ',completer = ids))
+                    eventos = FuzzyWordCompleter(triatlon.eventos[id_evento].participantes.keys())
+                    dni = prompt('Introduce el dni del aleta a editar:  ',completer = eventos)
                     nombre = prompt('Introduce el nombre: ')
                     apellido = prompt('Introduce el apellido: ')
                     fecha_nacimiento = prompt('Introduce la fecha de nacimiento: ')
                     genero = prompt('Introduce el genero [M/F]: ')
                     triatlon.editar_atleta(id_evento,dni,nombre,apellido,fecha_nacimiento,genero) 
-                    prompt()       
+                    prompt()
+
                 elif opcion == "4":
                     break
+
         elif opcion == "3":
+
             while True:
                 system("cls")
                 console.print(menu_registros_alineado)
                 opcion = prompt("Selecciona una opción: ")
                 if opcion == "1":
-                    triatlon.registrar_tiempo_natacion()
+                    id_evento = int(prompt('Introduce el evento al que pertenece el atleta: '))
+                    dni = prompt('Introduce el dni del aleta:  ')
+                    tiempo = input("Introduce el tiempo en formato hh:mm:ss (por ejemplo, 1:35:42): ")
+                    horas, minutos, segundos = map(int, tiempo.split(":"))
+                    tiempo_natacion = timedelta(hours=horas, minutes=minutos, seconds=segundos)
+                    triatlon.registrar_tiempo_natacion(id_evento,dni,tiempo_natacion)
 
                 elif opcion == "2":
-                    triatlon.registrar_tiempo_ciclismo()
+                    id_evento = int(prompt('Introduce el evento al que pertenece el atleta: '))
+                    dni = prompt('Introduce el dni del aleta :  ')
+                    tiempo = input("Introduce el tiempo en formato hh:mm:ss (por ejemplo, 1:35:42): ")
+                    horas, minutos, segundos = map(int, tiempo.split(":"))
+                    tiempo_ciclismo = timedelta(hours=horas, minutes=minutos, seconds=segundos)
+                    triatlon.registrar_tiempo_ciclismo(id_evento,dni,tiempo_ciclismo)
 
                 elif opcion == "3":
-                    triatlon.registrar_tiempo_carrera()
+                    # Pedimos los datos para registrar el tiempo de la carrera
+                    id_evento = int(prompt('Introduce el evento al que pertenece el atleta: '))
+                    dni = prompt('Introduce el dni del aleta:  ')
+                    tiempo = input("Introduce el tiempo en formato hh:mm:ss (por ejemplo, 1:35:42): ")
+                    horas, minutos, segundos = map(int, tiempo.split(":"))
+                    tiempo_carrera = timedelta(hours=horas, minutes=minutos, seconds=segundos)
+                    triatlon.registrar_tiempo_carrera(id_evento,dni,tiempo_carrera)
 
                 elif opcion == "4":
-                    triatlon.calcular_tiempo_total()
+                    # Pedimos los datos y luego usamos la funcion para que muestre el tiempo total del atleta
+                    id_evento = int(prompt('Introduce el evento al que pertenece el atleta: '))
+                    dni = prompt('Introduce el dni del aleta:  ')
+                    triatlon.calcular_tiempo_total(id_evento,dni)
+                    prompt()
 
                 elif opcion == "5":
                     break
@@ -126,7 +157,11 @@ def main():
                 system("cls")
                 console.print(menu_estadisticas_alineado)
                 opcion = prompt("Selecciona una opción: ")
-                if opcion == "3":
+                if opcion == "1":
+                    pass
+                elif opcion == "2":
+                    break
+                elif opcion == "3":
                     break
 
         elif opcion == "5":
