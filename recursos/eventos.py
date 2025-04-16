@@ -2,7 +2,16 @@ from rich.console import Console
 from datetime import timedelta
 from rich.panel import Panel
 from rich.table import Table
+from rich.align import Align
+
 console = Console()
+
+def centrar_menu(menu):
+    menu_alineado = Panel(
+    Align.center(menu),
+    border_style='#0c0c0c'
+    )
+    return menu_alineado
 
 class Atleta:
     #Constructor de atleta
@@ -107,8 +116,22 @@ class Triatlon():
     def mostrar_eventos(self):
         ''''Muestra los eventos creados'''
         if self.eventos:
+            # Creamos la tabla 
+            tabla = Table(title = '[bold]Lista de eventos[/]',expand=True,border_style='bold #27e5ff')
+            #Le añadimos las columnas
+            tabla.add_column('ID')
+            tabla.add_column('Nombre')
+            tabla.add_column('Fecha')
+            tabla.add_column('Lugar')
+            tabla.add_column('Distancia')
+            # Por evento que exista le añadimos una fila con los datos del evento
             for evento in self.eventos.values():
-                evento.mostrar_evento()
+                tabla.add_row(str(evento.id),evento.nombre,evento.fecha,evento.lugar,evento.distancia)
+
+            # Mostramos la tabla
+            console.print(tabla)
+
+            # Mensaje por si no hay eventos creados
         else:
             console.print('No hay eventos creados')
 
@@ -116,12 +139,15 @@ class Triatlon():
         if id_evento in self.eventos:
             del self.eventos[id_evento]
             self.agregar_evento(id_evento, nombre, fecha, lugar, distancia)
-            console.print(self.eventos[id_evento].mostrar_evento())
+            self.eventos[id_evento].mostrar_evento()
         else:
             console.print('No existe el evento que quieres editar')
 
 
     def buscar_atleta(self,id_evento,dni):
+        '''
+        Busca un atleta en un evento con un id de evento y su dni
+        '''
         if id_evento in self.eventos:
             if dni in self.eventos[id_evento].participantes:
                 atleta = self.eventos[id_evento].participantes[dni]
@@ -237,18 +263,38 @@ class Triatlon():
             for atleta in evento.participantes.values():
                 atleta.calcular_tiempo_total()
             
-            # Ordenamos por tiempo (del más rápido al más lento)
+            # Ordenamos por tiempo del más rápido al más lento
             atletas_ordenados = sorted(evento.participantes.values(), 
                                     key=lambda atleta: atleta.tiempo_final)
             
             # Mostramos la clasificación del evento
-            console.print(f"\nClasificación del evento: {evento.nombre}")
+            panel_titulo = Panel(f"[#af54fe]Clasificación del evento: {evento.nombre}[/]", border_style='bold #af54fe',padding = 1)
+            panel_evento = centrar_menu(panel_titulo)
+            console.print(panel_evento)
             for posicion, atleta in enumerate(atletas_ordenados, 1):
-                console.print(Panel(f"[#41ff27]{posicion}. {atleta.nombre}: {atleta.tiempo_final}[/]",border_style='#41ff27',width = 30,padding=1))
+                if posicion == 1:
+                    panel1 = Panel(f"[bold #FFD700]👑 {posicion}. {atleta.nombre}: {atleta.tiempo_final}",width = 30,padding=1,border_style='bold #FFD700')
+                    panel_alineado = centrar_menu(panel1)
+                    console.print(panel_alineado)
+                elif posicion == 2:
+                    panel2 = Panel(f"[bold #C0C0C0]🥈 {posicion}. {atleta.nombre}: {atleta.tiempo_final}",width = 30,padding=1,border_style='bold #C0C0C0')
+                    panel_alineado = centrar_menu(panel2)
+                    console.print(panel_alineado)
+                elif posicion == 3:
+                    panel3 = Panel(f"[bold #CD7F32]🥉 {posicion}. {atleta.nombre}: {atleta.tiempo_final}",width = 30,padding=1,border_style='bold #CD7F32')
+                    panel_alineado = centrar_menu(panel3)
+                    console.print(panel_alineado)
+                else:
+                    panel_sencillo = (Panel(f"   {posicion}. {atleta.nombre}: {atleta.tiempo_final}",width = 30,padding=1,border_style='#27e5ff'))
+                    panel_alineado = centrar_menu(panel_sencillo)
+                    console.print(panel_alineado)
+                
             
 
     def clasificacion_categoria(self,categoria):
-        """Muestra la clasificación de todos los eventos ordenada por tiempo"""
+        """
+        Muestra la clasificación de todos los eventos ordenada por tiempo
+        """
     
         for id_evento, evento in self.eventos.items():
             
@@ -257,50 +303,80 @@ class Triatlon():
                 atleta.calcular_tiempo_total()
             
             if categoria == 'natacion':
-                console.print(f"\nClasificación del evento: {evento.nombre}\nCategoria: {categoria}")
+                panel_categoria = Panel(f"[#af54fe]Clasificación del evento: {evento.nombre} Categoria {categoria}[/]", border_style='bold #af54fe',padding = 1)
+                panel_categorias = centrar_menu(panel_categoria)
+                console.print(panel_categorias)
                 # Ordenamos por tiempo (del más rápido al más lento)
                 atletas_ordenados = sorted(evento.participantes.values(), 
                                         key=lambda atleta: atleta.tiempo_natacion)
                 
                 for posicion, atleta in enumerate(atletas_ordenados, 1):
                     if posicion == 1:
-                        console.print(f"👑 {posicion}. {atleta.nombre}: {atleta.tiempo_natacion}")
+                        panel1 = Panel(f"[bold #FFD700]👑 {posicion}. {atleta.nombre}: {atleta.tiempo_natacion}",width = 30,padding=1,border_style='bold #FFD700')
+                        panel_alineado = centrar_menu(panel1)
+                        console.print(panel_alineado)
                     elif posicion == 2:
-                        console.print(f"🥈 {posicion}. {atleta.nombre}: {atleta.tiempo_natacion}")
+                        panel2 = Panel(f"[bold #C0C0C0]🥈 {posicion}. {atleta.nombre}: {atleta.tiempo_natacion}",width = 30,padding=1,border_style='bold #C0C0C0')
+                        panel_alineado = centrar_menu(panel2)
+                        console.print(panel_alineado)
                     elif posicion == 3:
-                        console.print(f"🥉 {posicion}. {atleta.nombre}: {atleta.tiempo_natacion}")
+                        panel3 = Panel(f"[bold #CD7F32]🥉 {posicion}. {atleta.nombre}: {atleta.tiempo_natacion}",width = 30,padding=1,border_style='bold #CD7F32')
+                        panel_alineado = centrar_menu(panel3)
+                        console.print(panel_alineado)
                     else:
-                        console.print(f"   {posicion}. {atleta.nombre}: {atleta.tiempo_natacion}")
+                        panel_sencillo = (Panel(f"   {posicion}. {atleta.nombre}: {atleta.tiempo_natacion}",width = 30,padding=1,border_style='#27e5ff'))
+                        panel_alineado = centrar_menu(panel_sencillo)
+                        console.print(panel_alineado)
 
             elif categoria == 'ciclismo':
-                console.print(f"\nClasificación del evento: {evento.nombre}\nCategoria: {categoria}")
+                panel_categoria = Panel(f"[#af54fe]Clasificación del evento: {evento.nombre} Categoria {categoria}[/]", border_style='bold #af54fe',padding = 1)
+                panel_categorias = centrar_menu(panel_categoria)
+                console.print(panel_categorias)
                 atletas_ordenados = sorted(evento.participantes.values(), 
                                         key=lambda atleta: atleta.tiempo_ciclismo)
                 
                 for posicion, atleta in enumerate(atletas_ordenados, 1):
                     if posicion == 1:
-                        console.print(f"👑 {posicion}. {atleta.nombre}: {atleta.tiempo_ciclismo}")
+                        panel1 = Panel(f"[bold #FFD700]👑 {posicion}. {atleta.nombre}: {atleta.tiempo_ciclismo}",width = 30,padding=1,border_style='bold #FFD700')
+                        panel_alineado = centrar_menu(panel1)
+                        console.print(panel_alineado)
                     elif posicion == 2:
-                        console.print(f"🥈 {posicion}. {atleta.nombre}: {atleta.tiempo_ciclismo}")
+                        panel2 = Panel(f"[bold #C0C0C0]🥈 {posicion}. {atleta.nombre}: {atleta.tiempo_ciclismo}",width = 30,padding=1,border_style='bold #C0C0C0')
+                        panel_alineado = centrar_menu(panel2)
+                        console.print(panel_alineado)
                     elif posicion == 3:
-                        console.print(f"🥉 {posicion}. {atleta.nombre}: {atleta.tiempo_ciclismo}")
+                        panel3 = Panel(f"[bold #CD7F32]🥉 {posicion}. {atleta.nombre}: {atleta.tiempo_ciclismo}",width = 30,padding=1,border_style='bold #CD7F32')
+                        panel_alineado = centrar_menu(panel3)
+                        console.print(panel_alineado)
                     else:
-                        console.print(f"   {posicion}. {atleta.nombre}: {atleta.tiempo_ciclismo}")
+                        panel_sencillo = (Panel(f"   {posicion}. {atleta.nombre}: {atleta.tiempo_ciclismo}",width = 30,padding=1,border_style='#27e5ff'))
+                        panel_alineado = centrar_menu(panel_sencillo)
+                        console.print(panel_alineado)
 
             elif categoria == 'carrera':
-                console.print(f"\nClasificación del evento: {evento.nombre}\nCategoria: {categoria}")
+                panel_categoria = Panel(f"[#af54fe]Clasificación del evento: {evento.nombre} Categoria {categoria}[/]", border_style='bold #af54fe',padding = 1)
+                panel_categorias = centrar_menu(panel_categoria)
+                console.print(panel_categorias)
                 atletas_ordenados = sorted(evento.participantes.values(), 
                                         key=lambda atleta: atleta.tiempo_carrera)
                 
                 for posicion, atleta in enumerate(atletas_ordenados, 1):
                     if posicion == 1:
-                        console.print(f"👑 {posicion}. {atleta.nombre}: {atleta.tiempo_carrera}")
+                        panel1 = Panel(f"[bold #FFD700]👑 {posicion}. {atleta.nombre}: {atleta.tiempo_carrera}",width = 30,padding=1,border_style='bold #FFD700')
+                        panel_alineado = centrar_menu(panel1)
+                        console.print(panel_alineado)
                     elif posicion == 2:
-                        console.print(f"🥈 {posicion}. {atleta.nombre}: {atleta.tiempo_carrera}")
+                        panel2 = Panel(f"[bold #C0C0C0]🥈 {posicion}. {atleta.nombre}: {atleta.tiempo_carrera}",width = 30,padding=1,border_style='bold #C0C0C0')
+                        panel_alineado = centrar_menu(panel2)
+                        console.print(panel_alineado)
                     elif posicion == 3:
-                        console.print(f"🥉 {posicion}. {atleta.nombre}: {atleta.tiempo_carrera}")
+                        panel3 = Panel(f"[bold #CD7F32]🥉 {posicion}. {atleta.nombre}: {atleta.tiempo_carrera}",width = 30,padding=1,border_style='bold #CD7F32')
+                        panel_alineado = centrar_menu(panel3)
+                        console.print(panel_alineado)
                     else:
-                        console.print(f"   {posicion}. {atleta.nombre}: {atleta.tiempo_carrera}")
+                        panel_sencillo = (Panel(f"   {posicion}. {atleta.nombre}: {atleta.tiempo_carrera}",width = 30,padding=1,border_style='#27e5ff'))
+                        panel_alineado = centrar_menu(panel_sencillo)
+                        console.print(panel_alineado)
             else:
                 console.print(Panel("[bold #C70039]No se encuentra la categoria[/]",border_style='bold #C70039'))
                 break

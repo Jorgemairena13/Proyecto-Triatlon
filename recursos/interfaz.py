@@ -46,6 +46,15 @@ menu_principal = '''
 ╚════════════════════════════════════════════════╝
 '''
 
+def centrar_menu(menu,titulo):
+    menu_alineado = Panel(
+    Align.center(menu),
+    border_style="#27e5ff",
+    title=f"[blink][#fff933]{titulo}[/]",
+    expand= True)
+    return menu_alineado
+
+
 
 menu_alineado = Panel(
     Align.center(menu_principal),
