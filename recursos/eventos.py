@@ -141,7 +141,7 @@ class Triatlon():
             self.agregar_evento(id_evento, nombre, fecha, lugar, distancia)
             self.eventos[id_evento].mostrar_evento()
         else:
-            console.print('No existe el evento que quieres editar')
+            console.print(Panel('No existe el evento que quieres editar',border_style='bold #C70039',width=30))
 
 
     def buscar_atleta(self,id_evento,dni):
