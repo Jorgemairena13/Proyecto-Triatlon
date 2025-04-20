@@ -69,6 +69,8 @@ menu_eventos = ("""
 ✏️  [#9a27ff]2. Editar eventos[/]
                 
 📅 [#ff27f8]3. Ver calendario[/]
+            
+💥 [#ff278c]4. Eliminar evento[/]
                 
 🔙 [#ff2e27]4. Volver al menú principal[/]
 """)
@@ -87,6 +89,8 @@ menu_atletas = """
 🔍 [#9a27ff]2. Buscar atleta
 
 ✏️  [#ff27f8]3. Editar atleta
+
+💥 [#ff278c]4. Eliminar atleta
 
 🔙 [#ff2e27]4. Volver al menú principal[/]
 """

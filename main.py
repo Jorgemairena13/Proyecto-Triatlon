@@ -36,6 +36,13 @@ def validar_campo_vacio(campo_validar):
         return False
     else:
         return True
+    
+def validar_dni(dni):
+    if len(dni) == 9 and dni[:8].isdigit() and dni[8].isalpha():
+        return True
+    else:
+        console.print(Panel('[bold #C70039]El formato del dni no es valido [12345678A]!![/]',border_style='bold #C70039',width = 30))
+        return False
 
 
 # Le decimos al usuario si quiere datos de muestra
@@ -132,15 +139,12 @@ def main():
 
                     # Pedir y validar la fecha
                     while True:
-                        fecha = prompt('Introduce la fecha del evento [DIA-MES-AÑO]: ', style=style)
+                        
                         try:
-                            fecha_nacimiento = prompt('Introduce la fecha del evento [dd-mm-aa]: ', style=style)
+                            fecha_nacimiento = prompt('Introduce la fecha de nacimiento [dd-mm-aa]: ', style=style)
                             # Combrobamos que este vacia por si no quiere editar los datos
-                            if fecha_nacimiento.strip() == '':
-                                break
-                            # Validamos el formato de la fecha
-                            datetime.strptime(fecha_nacimiento, '%d-m-%Y')
-                    
+                            
+                            datetime.strptime(fecha_nacimiento, '%d-%m-%Y')
                             break
                         except:
                             console.print("[bold red]Fecha inválida[/]")
@@ -167,7 +171,20 @@ def main():
                 elif opcion == '3':
                     triatlon.mostrar_eventos()
                     prompt(style=style)
-                elif opcion == "4":
+
+                elif opcion == '4':
+                    while True:
+                        try:
+                            id_evento = int(prompt('ID del evento que se quiere borrar: ',completer = completar_ids(),style=style))
+                            triatlon.eliminar_evento(id_evento)
+                            break
+
+                        except:
+                            console.print(Panel("[bold #C70039]Introduce un numero!![/]",border_style='bold #C70039',width=30))
+                            continue
+
+                    prompt()
+                elif opcion == "5":
                     break
 
         # Menu de atletas
@@ -183,7 +200,10 @@ def main():
                     while True:
                         dni = prompt('Introduce el dni del atleta: ', style=style)
                         if validar_campo_vacio(dni):
-                            break
+                            if validar_dni(dni):
+                                break
+                            else:
+                                continue
                         else:
                             continue
 
@@ -204,16 +224,12 @@ def main():
                             continue
 
                     while True:
-                        fecha_nacimiento = prompt('Introduce la fecha de nacimiento del atleta [DIA-MES-AÑO]: ', style=style)
                         
                         try:
                             fecha_nacimiento = prompt('Introduce la fecha de nacimiento [dd-mm-aa]: ', style=style)
                             # Combrobamos que este vacia por si no quiere editar los datos
-                            if fecha_nacimiento.strip() == '':
-                                break
-                            # Validamos el formato de la fecha
-                            datetime.strptime(fecha_nacimiento, '%d-m-%Y')
-                    
+                            
+                            datetime.strptime(fecha_nacimiento, '%d-%m-%Y')
                             break
                         except:
                             console.print("[bold red]Fecha inválida[/]")
@@ -271,11 +287,8 @@ def main():
                         try:
                             fecha_nacimiento = prompt('Introduce la fecha de nacimiento [dd-mm-aa]: ', style=style)
                             # Combrobamos que este vacia por si no quiere editar los datos
-                            if fecha_nacimiento.strip() == '':
-                                break
-                            # Validamos el formato de la fecha
-                            datetime.strptime(fecha_nacimiento, '%d-m-%Y')
-                    
+                            
+                            datetime.strptime(fecha_nacimiento, '%d-%m-%Y')
                             break
                         except:
                             console.print("[bold red]Fecha inválida[/]")

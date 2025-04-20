@@ -65,9 +65,7 @@ class Atleta:
         console.print(f"Tiempo total: {self.calcular_tiempo_total()}")
         
 
-    def eliminar_atleta(self,dni):
-        pass
-        
+    
 # Clase evento
 class Evento:
     # Constructor
@@ -103,14 +101,27 @@ class Triatlon():
         self.eventos[id_evento] = Evento(id_evento, nombre, fecha, lugar, distancia)
         
 
+    def eliminar_evento(self,id_evento):
+        '''
+        Elimina un evento pasandole el id del eventto que se quiere eliminar
+        '''
+        if id_evento in self.eventos:
+            # Mensaje de confirmacion de la eliminacion
+            console.print(Panel(f'[bold #28a745]Evento {self.eventos[id_evento].nombre} eliminado  con exito[/]',width=30,border_style='bold #28a745'))
+            del self.eventos[id_evento]
+        else:
+            # Mensaje de que no se encuentra el id que nos ha pasado
+            console.print(Panel(f"[bold #C70039]El evento con ID {id_evento} no se encuentra[/]",border_style='bold #C70039',width=30))
+        
     # Agrega un participante al evento
     def agregar_participante(self, dni, nombre, apellido, fecha_nacimiento, genero, id_evento):
         if id_evento in self.eventos:
             # Añade el participante al diccionario de participantes del evento
             self.eventos[id_evento].participantes[dni] = Atleta(dni, nombre, apellido, fecha_nacimiento, genero)
-            console.print(f'Atleta {nombre} registrado con exito')
+            console.print(Panel(f'[bold #28a745]Atleta {nombre} registrado con exito[/]',width=30,border_style='bold #28a745'))
         else:
-            console.print(f"El evento con ID {id_evento} no existe")
+            # Mensaje de que no se encuentra el ID
+            console.print(Panel(f"[bold #C70039]El evento con ID {id_evento} no se encuentra[/]",border_style='bold #C70039',width=30))
 
     # Muestra los eventos que hemos creado
     def mostrar_eventos(self):
