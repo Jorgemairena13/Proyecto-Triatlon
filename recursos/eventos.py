@@ -7,6 +7,9 @@ from rich.align import Align
 console = Console()
 
 def centrar_menu(menu):
+    ''''
+    Crea un panel con color de la terminal para centrar el panel creado
+    '''
     menu_alineado = Panel(
     Align.center(menu),
     border_style='#0c0c0c'
@@ -81,7 +84,6 @@ class Evento:
     # Funcion para mostra el evento
     def mostrar_evento(self):
         '''Muestra todos las  caractericticas del evento '''
-
         console.print("")
         console.print(f"ID: {self.id}")
         console.print(f"Nombre: {self.nombre}")

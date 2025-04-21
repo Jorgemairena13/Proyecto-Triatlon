@@ -41,7 +41,14 @@ def validar_dni(dni):
     if len(dni) == 9 and dni[:8].isdigit() and dni[8].isalpha():
         return True
     else:
-        console.print(Panel('[bold #C70039]El formato del dni no es valido [12345678A]!![/]',border_style='bold #C70039',width = 30))
+        console.print(Panel('[bold #C70039]El formato del dni no es valido!! [12345678A][/]',border_style='bold #C70039',width = 30))
+        return False
+
+def validar_solo_letras(campo_validar):
+    if campo_validar.isalpha():
+        return True
+    else:
+        console.print(Panel('[bold #C70039]Solo se pueden introducir letras!![/]',border_style='bold #C70039',width = 30))
         return False
 
 
@@ -91,32 +98,39 @@ def main():
                         # Pedimos el nombre
                         nombre = prompt('Introduce el nombre del evento: ',style=style)
                         # Validamos el campo
-                        comprobar = validar_campo_vacio(nombre)
-                        if comprobar:
+                        
+                        if  validar_campo_vacio(nombre) and validar_solo_letras(nombre):
                             break
                         else:
                             continue
+                    
+                    # Validamos la fecha con el formato correcto
                     while True:
-                        fecha = prompt('Introduce la fecha del evento [DIA-MES-AÑO]: ',style=style)
-                        comprobar = validar_campo_vacio(fecha)
-                        if comprobar:
+                        try:
+                            fecha = prompt('Introduce la fecha de nacimiento [dd-mm-aa]: ', style=style)
+                            # Combrobamos que este vacia por si no quiere editar los datos
+                            datetime.strptime(fecha, '%d-%m-%Y')
                             break
-                        else:
+                        except:
+                            console.print("[bold red]Fecha inválida[/]")
                             continue
-
+                        
+                    # Validamos el lugar 
                     while True:
                         lugar = prompt('Introduce el lugar del evento: ', style=style)
-                        if validar_campo_vacio(lugar):
+                        if validar_campo_vacio(lugar) and validar_solo_letras(lugar):
                             break
                         else:
                             continue
-
+                    # Validamos la distancia
                     while True:
                         distancia = prompt('Introduce la distancia total del evento: ', style=style)
                         if validar_campo_vacio(distancia):
                             break
                         else:
                             continue
+                    
+                    # Agregamos el evento con el metodo correspondiente
                     triatlon.agregar_evento(id_evento, nombre, fecha, lugar, distancia)
                     prompt('Evento creado correctamente',style=style)
                     
@@ -132,12 +146,12 @@ def main():
                         
                     while True:
                         nombre = prompt('Introduce el nombre del evento: ', style=style)
-                        if validar_campo_vacio(nombre):
+                        if validar_campo_vacio(nombre) and validar_solo_letras(nombre):
                             break
                         else:
                             continue
 
-                    # Pedir y validar la fecha
+                    #Vvalidar la fecha con el formato correcto
                     while True:
                         
                         try:
@@ -147,14 +161,17 @@ def main():
                             datetime.strptime(fecha_nacimiento, '%d-%m-%Y')
                             break
                         except:
-                            console.print("[bold red]Fecha inválida[/]")
+                            console.print("[bold #C70039]Fecha inválida[/]")
                             continue
 
                     # Pedir y validar el lugar
                     while True:
                         lugar = prompt('Introduce el lugar del evento: ', style=style)
-                        if validar_campo_vacio(lugar):
-                            break
+                        if validar_campo_vacio(lugar) and validar_solo_letras(lugar):
+                            if lugar.isalpha():
+                                break
+                            else:
+                                console.print("[bold red]Solo se pueden introducir fechas[/]")
                         else:
                             continue
 
@@ -196,29 +213,32 @@ def main():
                 if opcion == '1':
                     
                     # Pedir datos del atleta
-                    id_evento = int(prompt('ID del evento al que se inscribe: ',completer = completar_ids(),style=style))
+                    while True:
+                        try:
+                            id_evento = int(prompt('ID del evento al que se inscribe: ',completer = completar_ids(),style=style))
+                            break
+
+                        except:
+                            console.print(Panel("[bold #C70039]Introduce un numero!![/]",border_style='bold #C70039',width=30))
+                            continue
+
                     while True:
                         dni = prompt('Introduce el dni del atleta: ', style=style)
-                        if validar_campo_vacio(dni):
-                            if validar_dni(dni):
-                                break
-                            else:
-                                continue
+                        if validar_campo_vacio(dni) and validar_dni(dni):
+                            break 
                         else:
                             continue
 
                     while True:
-                        nombre = prompt('Introduce el nombre del atleta: ', style=style)
-                        if validar_campo_vacio(nombre):
-                            nombre = nombre.capitalize()
+                        nombre = prompt('Introduce el nombre del atleta: ', style=style).capitalize()
+                        if validar_campo_vacio(nombre) and validar_solo_letras(nombre):
                             break
                         else:
                             continue
 
                     while True:
-                        apellido = prompt('Introduce el apellido del atleta: ', style=style)
-                        if validar_campo_vacio(apellido):
-                            apellido = apellido.capitalize()
+                        apellido = prompt('Introduce el apellido del atleta: ', style=style).capitalize()
+                        if validar_campo_vacio(apellido) and validar_solo_letras(apellido):
                             break
                         else:
                             continue
@@ -237,9 +257,8 @@ def main():
                         
 
                     while True:
-                        genero = prompt('Introduce el genero del atleta [M/F]: ', style=style)
-                        if validar_campo_vacio(genero) and genero.upper() in ['M', 'F']:
-                            genero = genero.upper()
+                        genero = prompt('Introduce el genero del atleta [M/F]: ', style=style).upper()
+                        if validar_campo_vacio(genero) and genero in ['M', 'F']:
                             break
                         else:
                             console.print('[bold #C70039]Por favor, introduce M o F para el género.[/]')
@@ -251,14 +270,22 @@ def main():
                     prompt(style=style)
 
                 elif opcion == '2':
-                    id_evento = int(prompt('Introduce el id del evento donde participa: ',style=style,completer = completar_ids()))
+                    # Validar id sin errores
+                    while True:
+                        try:
+                            id_evento = int(prompt('ID del evento al que pertenece: ',completer = completar_ids(),style=style))
+                            break
+
+                        except:
+                            console.print(Panel("[bold #C70039]Introduce un numero!![/]",border_style='bold #C70039',width=30))
+                            continue
                     while True:
                         dni = prompt('Introduce el dni del atleta a buscar: ', style=style)
-                        if validar_campo_vacio(dni):
+                        if validar_campo_vacio(dni) and validar_dni(dni):
                             break
                         else:
                             continue
-                    
+                    # Metodo para buscar un atleta
                     triatlon.buscar_atleta(id_evento,dni)
                     prompt(style=style)
                     
@@ -266,24 +293,42 @@ def main():
 
                     console.print(Panel('[bold #f8ff26] Editar atributos del atleta[/]',border_style='bold #f8ff26'))
                     console.print(Panel('[bold blink #f8ff26]Recuerda si no quieres cambiar algun campo deja el campo vacio[/]',border_style='bold #f8ff26'))
-
-                    id_evento = int(prompt('Introduce el evento al que pertenece el atleta: ',completer = completar_ids(),style=style))
-                    
-                    dni = prompt('Introduce el dni del aleta a editar:  ',completer  = completar_dni(id_evento),style=style)
-                        
-                    # Validar nombre
-                    
-                    nombre = prompt('Introduce el nombre: ', style=style).capitalize()
-                        
-
-                    # Validar apellido
-                    
-                    apellido = prompt('Introduce el apellido: ', style=style).capitalize()
-                       
-
-                    # Validar fecha de nacimiento
+                    # Validar el id para que no de error
                     while True:
-                        
+                        try:
+                            id_evento = int(prompt('ID del evento al que pertenece: ',completer = completar_ids(),style=style))
+                            break
+
+                        except:
+                            console.print(Panel("[bold #C70039]Introduce un numero!![/]",border_style='bold #C70039',width=30))
+                            continue
+                    
+                    # Validamos el dni sin que que este vacio y con su formato correcto
+                    while True:
+                        dni = prompt('Introduce el dni del aleta a editar:  ',completer  = completar_dni(id_evento),style=style)
+                        if validar_campo_vacio(dni) and validar_dni(dni):
+                            break
+                        else:
+                            continue    
+
+                    # Validar nombre 
+                    while True:
+                        nombre = prompt('Introduce el nombre: ', style=style).capitalize()
+                        if validar_campo_vacio(nombre) and validar_solo_letras(nombre):
+                            break
+                        else:
+                            continue
+
+                    # Validar apellido sin espacios vacios
+                    while True:
+                        apellido = prompt('Introduce el apellido: ', style=style).capitalize()                        
+                        if validar_campo_vacio(apellido) and validar_solo_letras(apellido):
+                            break
+                        else:
+                            continue
+
+                    # Validar fecha de nacimiento con un formato correcto
+                    while True:
                         try:
                             fecha_nacimiento = prompt('Introduce la fecha de nacimiento [dd-mm-aa]: ', style=style)
                             # Combrobamos que este vacia por si no quiere editar los datos
@@ -317,11 +362,18 @@ def main():
                 opcion = prompt("Selecciona una opción: ",style=style)
                 if opcion == "1":
                     
-                    id_evento = int(prompt('Introduce el evento al que pertenece el atleta: ',completer = completar_ids(),style=style))
+                    while True:
+                        try:
+                            id_evento = int(prompt('ID del evento al que pertenece: ',completer = completar_ids(),style=style))
+                            break
+
+                        except:
+                            console.print(Panel("[bold #C70039]Introduce un numero!![/]",border_style='bold #C70039',width=30))
+                            continue
                     
                     while True:
                         dni = prompt('Introduce el dni del atleta: ', style=style)
-                        if validar_campo_vacio(dni):
+                        if validar_campo_vacio(dni) and validar_dni(dni):
                             break
                         else:
                             continue
@@ -348,11 +400,18 @@ def main():
 
                 elif opcion == "2":
 
-                    id_evento = int(prompt('Introduce el evento al que pertenece el atleta: ',style=style,completer = completar_ids()))
+                    while True:
+                        try:
+                            id_evento = int(prompt('ID del evento al que pertenece el atleta: ',completer = completar_ids(),style=style))
+                            break
+
+                        except:
+                            console.print(Panel("[bold #C70039]Introduce un numero!![/]",border_style='bold #C70039',width=30))
+                            continue
 
                     while True:
                         dni = prompt('Introduce el dni del atleta: ', style=style)
-                        if validar_campo_vacio(dni):
+                        if validar_campo_vacio(dni) and validar_dni(dni):
                             break
                         else:
                             continue
@@ -377,10 +436,18 @@ def main():
 
                 elif opcion == "3":
                     # Pedimos los datos para registrar el tiempo de la carrera
-                    id_evento = int(prompt('Introduce el evento al que pertenece el atleta: ',style=style,completer = completar_ids()))
+                    while True:
+                        try:
+                            id_evento = int(prompt('ID del evento al que pertenece el atleta: ',completer = completar_ids(),style=style))
+                            break
+
+                        except:
+                            console.print(Panel("[bold #C70039]Introduce un numero!![/]",border_style='bold #C70039',width=30))
+                            continue
+
                     while True:
                         dni = prompt('Introduce el dni del atleta: ', style=style)
-                        if validar_campo_vacio(dni):
+                        if validar_campo_vacio(dni) and validar_dni(dni):
                             break
                         else:
                             continue
@@ -405,11 +472,18 @@ def main():
 
                 elif opcion == "4":
                     # Pedimos los datos y luego usamos la funcion para que muestre el tiempo total del atleta
-                    id_evento = int(prompt('Introduce el evento al que pertenece el atleta: ',style=style,completer = completar_ids()))
+                    while True:
+                        try:
+                            id_evento = int(prompt('Introduce el id del atleta para calcular el tiempo total: ',completer = completar_ids(),style=style))
+                            break
+
+                        except:
+                            console.print(Panel("[bold #C70039]Introduce un numero!![/]",border_style='bold #C70039',width=30))
+                            continue
                     while True:
                         # Pedimos y validamos el dni
                         dni = prompt('Introduce el dni del atleta: ', style=style)
-                        if validar_campo_vacio(dni):
+                        if validar_campo_vacio(dni) and validar_dni(dni):
                             break
                         else:
                             continue
