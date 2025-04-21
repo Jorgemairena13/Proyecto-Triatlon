@@ -72,7 +72,7 @@ menu_eventos = ("""
             
 💥 [#ff278c]4. Eliminar evento[/]
                 
-🔙 [#ff2e27]4. Volver al menú principal[/]
+🔙 [#ff2e27]5. Volver al menú principal[/]
 """)
 
 
@@ -92,7 +92,7 @@ menu_atletas = """
 
 💥 [#ff278c]4. Eliminar atleta
 
-🔙 [#ff2e27]4. Volver al menú principal[/]
+🔙 [#ff2e27]5. Volver al menú principal[/]
 """
 
 menu_atletas_alineado = Panel(

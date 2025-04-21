@@ -119,6 +119,9 @@ class Triatlon():
     def agregar_participante(self, dni, nombre, apellido, fecha_nacimiento, genero, id_evento):
         if id_evento in self.eventos:
             # Añade el participante al diccionario de participantes del evento
+            if dni in self.eventos[id_evento].participantes:
+                console.print(Panel(f"[bold #C70039]Ya existe un atleta con DNI {dni} en este evento[/]", border_style='bold #C70039', width=30))
+                return
             self.eventos[id_evento].participantes[dni] = Atleta(dni, nombre, apellido, fecha_nacimiento, genero)
             console.print(Panel(f'[bold #28a745]Atleta {nombre} registrado con exito[/]',width=30,border_style='bold #28a745'))
         else:
@@ -270,7 +273,23 @@ class Triatlon():
 
     def clasificacion_general(self):
         """Muestra la clasificación de todos los eventos ordenada por tiempo"""
-    
+        # Comprobamos que hay eventos creados
+        if not self.eventos:
+            console.print(Panel('[bold #C70039]No hay eventos registrados[/]',width=30,border_style='bold #C70039'))
+            return 
+        
+        # Buscamos participantes 
+        participantes_encontrados = False
+        for id_evento, evento in self.eventos.items():
+            if evento.participantes:
+                participantes_encontrados = True
+                break
+        # Si no esta en True le mandamos el mensaje de que no hay nadie registrado
+        if not participantes_encontrados:
+            console.print(Panel('[bold #C70039]No hay participantes registrados en ningún evento[/]',width=30,border_style='bold #C70039'))
+            return
+        
+
         for id_evento, evento in self.eventos.items():
             # Primero calculamos los tiempos totales de todos los participantes
             for atleta in evento.participantes.values():
@@ -308,7 +327,24 @@ class Triatlon():
         """
         Muestra la clasificación de todos los eventos ordenada por tiempo
         """
-    
+        # Comprobamos que haya eventos
+        if not self.eventos:
+            console.print(Panel('[bold #C70039]No hay eventos registrados[/]',width=30,border_style='bold #C70039'))
+            return
+        
+        # Verificar si hay participantes en algún evento
+        participantes_encontrados = False
+        for id_evento, evento in self.eventos.items():
+            if evento.participantes:
+                participantes_encontrados = True
+                break
+
+        # Si no esta en True le mandamos el mensaje de que no hay nadie registrado
+        if not participantes_encontrados:
+            console.print(Panel('[bold #C70039]No hay participantes registrados en ningún evento[/]',width=30,border_style='bold #C70039'))
+            return
+
+        
         for id_evento, evento in self.eventos.items():
             
             # Primero calculamos los tiempos totales de todos los participantes

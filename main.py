@@ -31,6 +31,9 @@ def completar_dni(id_evento):
     return eventos
 
 def validar_campo_vacio(campo_validar):
+    '''
+    Valida que el campo que se le pasa no este vacio
+    '''
     if str(campo_validar).strip() == '':
         console.print(Panel('[bold #C70039]No se pueden introducir datos vacion!![/]',border_style='bold #C70039',width = 30))
         return False
@@ -38,6 +41,9 @@ def validar_campo_vacio(campo_validar):
         return True
     
 def validar_dni(dni):
+    '''
+    Valida el dni con formato de 9 los 8 primeros digitos y el ultimo que sea una letra
+    '''
     if len(dni) == 9 and dni[:8].isdigit() and dni[8].isalpha():
         return True
     else:
@@ -45,6 +51,9 @@ def validar_dni(dni):
         return False
 
 def validar_solo_letras(campo_validar):
+    '''
+    Valida que el campo que se le pase solo sea numerico
+    '''
     if campo_validar.isalpha():
         return True
     else:
@@ -182,7 +191,7 @@ def main():
                             break
                         else:
                             continue
-                    triatlon.editar_evento(evento, nombre, fecha, lugar, distancia)
+                    triatlon.editar_evento(evento, nombre, fecha_nacimiento, lugar, distancia)
                     prompt(style=style)
                     
                 elif opcion == '3':
@@ -351,7 +360,7 @@ def main():
                     triatlon.editar_atleta(id_evento,dni,nombre,apellido,fecha_nacimiento,genero) 
                     prompt(style=style)
 
-                elif opcion == "4":
+                elif opcion == "5":
                     break
         # Menu de registros de tiempos
         elif opcion == "3":
