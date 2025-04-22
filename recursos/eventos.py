@@ -3,6 +3,9 @@ from datetime import timedelta
 from rich.panel import Panel
 from rich.table import Table
 from rich.align import Align
+from rich.text import Text
+from rich.style import Style as Estilo
+import rich.box
 
 console = Console()
 
@@ -67,8 +70,6 @@ class Atleta:
         console.print(f"Tiempo carrera: {self.tiempo_carrera}")
         console.print(f"Tiempo total: {self.calcular_tiempo_total()}")
         
-
-    
 # Clase evento
 class Evento:
     # Constructor
@@ -84,12 +85,24 @@ class Evento:
     # Funcion para mostra el evento
     def mostrar_evento(self):
         '''Muestra todos las  caractericticas del evento '''
-        console.print("")
-        console.print(f"ID: {self.id}")
-        console.print(f"Nombre: {self.nombre}")
-        console.print(f"Fecha: {self.fecha}")
-        console.print(f"Lugar: {self.lugar}")
-        console.print(f"Distancia total en KM: {self.distancia}")
+        title_style = Estilo(color="white", bold=True)
+        contenido = (
+            f"🆔 [bold green] ID:[/] [bold #69c4c9]{self.id}[/]\n"    
+            f"👤 [bold green] Nombre:[/] [bold #69c4c9]{self.nombre}[/]\n"
+            f"📅 [bold green] Fecha:[/] [bold #69c4c9]{self.fecha}[/]\n"
+            f"📍 [bold green] Lugar:[/] [bold #69c4c9]{self.lugar}[/]\n"
+            f"🛣️ [bold green]  Distancia:[/] [bold #69c4c9]{self.distancia} KM[/]\n"
+        )
+        panel = Panel(
+            contenido,
+            title=Text("🏆 Datos del Evento", style=title_style),
+            border_style="green",
+            padding=(1, 2),  # Añadir espacio interno al panel
+            expand=False    # Evitar que el panel se expanda al ancho máximo
+        )
+        console.print(panel)
+        
+
     
 # Clase triatlon para gestionar los participantes y los eventos
 class Triatlon():
@@ -132,20 +145,37 @@ class Triatlon():
     def mostrar_eventos(self):
         ''''Muestra los eventos creados'''
         if self.eventos:
-            # Creamos la tabla 
-            tabla = Table(title = '[bold]Lista de eventos[/]',expand=True,border_style='bold #27e5ff')
-            #Le añadimos las columnas
-            tabla.add_column('ID')
-            tabla.add_column('Nombre')
-            tabla.add_column('Fecha')
-            tabla.add_column('Lugar')
-            tabla.add_column('Distancia')
-            # Por evento que exista le añadimos una fila con los datos del evento
+            tabla = Table(
+            title="[bold cyan]📆 LISTA DE EVENTOS[/]",
+            expand=True,
+            border_style="bold cyan",
+            box=rich.box.MINIMAL_DOUBLE_HEAD,
+            highlight=True,
+            header_style="bold cyan",
+            
+        )
+        
+            # Añadimos columnas con emojis y estilos
+            tabla.add_column("[bold]🔢 ID[/]", justify="center", style="cyan")
+            tabla.add_column("[bold]📝 Nombre[/]", style="green")
+            tabla.add_column("[bold]📅 Fecha[/]", style="yellow")
+            tabla.add_column("[bold]📍 Lugar[/]", style="magenta")
+            tabla.add_column("[bold]🏃 Distancia[/]", justify="right", style="blue")
+            
+        # Añadimos los datos formateando algunas columnas para mejor visualización
             for evento in self.eventos.values():
-                tabla.add_row(str(evento.id),evento.nombre,evento.fecha,evento.lugar,evento.distancia)
-
-            # Mostramos la tabla
+                tabla.add_row(
+                    f"[cyan]{str(evento.id)}[/]",
+                    evento.nombre,
+                    f"[yellow]{evento.fecha}[/]",
+                    evento.lugar,
+                    f"[blue]{evento.distancia} KM[/]"
+                )
+        
+            # Agregamos espacio antes y después de la tabla
+            console.print("\n")
             console.print(tabla)
+            console.print("\n")
 
             # Mensaje por si no hay eventos creados
         else:
@@ -429,7 +459,31 @@ class Triatlon():
             else:
                 console.print(Panel("[bold #C70039]No se encuentra la categoria[/]",border_style='bold #C70039'))
                 break
-            
+    def ordenar_por_opcion(self,opcion):
+        # dni, nombre, apellido, fecha_nacimiento, genero
+        if opcion.lower() == 'dni':
+            for id_evento, evento in self.eventos.items():
+                atletas_ordenados = sorted(evento.participantes.values(), 
+                                            key=lambda atleta: atleta.dni)
+                
+        elif opcion.lower() == 'nombre':
+            for id_evento, evento in self.eventos.items():
+                atletas_ordenados = sorted(evento.participantes.values(), 
+                                            key=lambda atleta: atleta.nombre)
+        elif opcion.lower() == 'apellido':
+            for id_evento, evento in self.eventos.items():
+                atletas_ordenados = sorted(evento.participantes.values(), 
+                                            key=lambda atleta: atleta.apellido)
+        elif opcion.lower() == 'fecha nacimiento':
+            for id_evento, evento in self.eventos.items():
+                atletas_ordenados = sorted(evento.participantes.values(), 
+                                            key=lambda atleta: atleta.fecha_nacimiento)
+        elif opcion.lower() == 'genero':
+            for id_evento, evento in self.eventos.items():
+                atletas_ordenados = sorted(evento.participantes.values(), 
+                                            key=lambda atleta: atleta.genero)
+                for atelta in atletas_ordenados:
+                    print(atelta.nombre,atelta.genero)
 
             
             

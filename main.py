@@ -35,7 +35,7 @@ def validar_campo_vacio(campo_validar):
     Valida que el campo que se le pasa no este vacio
     '''
     if str(campo_validar).strip() == '':
-        console.print(Panel('[bold #C70039]No se pueden introducir datos vacion!![/]',border_style='bold #C70039',width = 30))
+        console.print(Panel('[bold #C70039]No se pueden introducir datos vacios!![/]',border_style='bold #C70039',width = 30))
         return False
     else:
         return True
@@ -54,6 +54,7 @@ def validar_solo_letras(campo_validar):
     '''
     Valida que el campo que se le pase solo sea numerico
     '''
+    campo_validar = campo_validar.replace(" ", "")
     if campo_validar.isalpha():
         return True
     else:
@@ -63,12 +64,13 @@ def validar_solo_letras(campo_validar):
 
 # Le decimos al usuario si quiere datos de muestra
 opcion_datos = prompt('Quieres datos falsos para ver ejemplos? [S|N]',style=style).upper()
+prompt('Poner en pantalla completa para mejor visualizacion',style=style)
 
 if opcion_datos == 'S':
     # Agregamos 3 eventos
-    triatlon.agregar_evento(1, "Triatlon Barcelona", "2025-05-15", "Barcelona", "51.5 km")
-    triatlon.agregar_evento(2, "Triatlon Madrid", "2025-06-20", "Madrid", "32.0 km")
-    triatlon.agregar_evento(3, "Triatlon Valencia", "2025-07-10", "Valencia", "25.7 km")
+    triatlon.agregar_evento(1, "Triatlon Barcelona", "2025-05-15", "Barcelona", "51.5")
+    triatlon.agregar_evento(2, "Triatlon Madrid", "2025-06-20", "Madrid", "32.0")
+    triatlon.agregar_evento(3, "Triatlon Valencia", "2025-07-10", "Valencia", "25.7")
 
     # Agregar participantes a los eventos para pruebas
 
@@ -87,12 +89,17 @@ if opcion_datos == 'S':
     triatlon.agregar_participante("67890123F", "Ana", "Rodríguez", "1991-04-12", "F", 3)
     triatlon.agregar_participante("78901234G", "David", "González", "1989-08-25", "M", 3)
     triatlon.agregar_participante("89012345H", "Elena", "Pérez", "1994-06-07", "F", 3)
+triatlon.ordenar_por_opcion('genero')
+prompt()
+system('cls')    
+logo_centrado = centrar_menu(logo)
+console.print(logo_centrado)
 
 def main():
     while True:
-        system("cls")
-        print(menu_alineado)
+        console.print(menu_alineado)
         opcion = prompt("Selecciona una opción: ",style=style)
+        system("cls")
         # Menu de eventos
         if opcion == '1':
              while True:
