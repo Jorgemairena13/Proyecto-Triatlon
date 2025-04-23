@@ -1,7 +1,6 @@
 from recursos.interfaz import *
 from recursos.eventos import *
-from recursos.registros import *
-from recursos.estadisticas import *
+
 
 from os import system
 from datetime import timedelta
@@ -75,11 +74,11 @@ if opcion_datos == 'S':
     # Agregar participantes a los eventos para pruebas
 
     # Participantes para el evento 1 Barcelona
-    triatlon.agregar_participante("20", "Juan", "García", "1990-03-15", "M", 1)
+    triatlon.agregar_participante("12345672G", "Juan", "García", "1990-03-15", "M", 1)
     triatlon.agregar_participante("23456789B", "María", "López", "1992-07-22", "F", 1)
-    triatlon.agregar_participante("4", "Pepe", "Martínez", "1988-11-05", "M", 1)
-    triatlon.agregar_participante("787", "Luis", "Martínez", "1988-11-05", "M", 1)
-    triatlon.agregar_participante("53151", "Carlos", "Martínez", "1988-11-05", "M", 1)
+    triatlon.agregar_participante("56789012E", "Pepe", "Martínez", "1988-11-05", "M", 1)
+    triatlon.agregar_participante("56789012E", "Luis", "Martínez", "1988-11-05", "M", 1)
+    triatlon.agregar_participante("56789012E", "Carlos", "Martínez", "1988-11-05", "M", 1)
 
     # Participantes para el evento 2 Madrid
     triatlon.agregar_participante("45678901D", "Laura", "Sánchez", "1995-02-18", "F", 2)
@@ -89,7 +88,7 @@ if opcion_datos == 'S':
     triatlon.agregar_participante("67890123F", "Ana", "Rodríguez", "1991-04-12", "F", 3)
     triatlon.agregar_participante("78901234G", "David", "González", "1989-08-25", "M", 3)
     triatlon.agregar_participante("89012345H", "Elena", "Pérez", "1994-06-07", "F", 3)
-triatlon.ordenar_por_opcion('genero')
+triatlon.ordenar_por_opcion('dni')
 prompt()
 system('cls')    
 logo_centrado = centrar_menu(logo)

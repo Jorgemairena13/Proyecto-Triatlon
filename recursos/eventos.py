@@ -461,10 +461,16 @@ class Triatlon():
                 break
     def ordenar_por_opcion(self,opcion):
         # dni, nombre, apellido, fecha_nacimiento, genero
+        atletas_nuevos = []
+
+        for id_evento, evento in self.eventos.items():
+            for atleta in evento.participantes.values():
+                atletas_nuevos.append(atleta)
+
         if opcion.lower() == 'dni':
-            for id_evento, evento in self.eventos.items():
-                atletas_ordenados = sorted(evento.participantes.values(), 
-                                            key=lambda atleta: atleta.dni)
+                atletas_ordenados = sorted(atletas_nuevos,key=lambda atleta: atleta.dni)
+                for atleta in atletas_ordenados:
+                    print(atleta.dni,atleta.nombre,atleta.genero)
                 
         elif opcion.lower() == 'nombre':
             for id_evento, evento in self.eventos.items():
