@@ -151,8 +151,7 @@ class Triatlon():
             border_style="bold cyan",
             box=rich.box.MINIMAL_DOUBLE_HEAD,
             highlight=True,
-            header_style="bold cyan",
-            
+            header_style="bold cyan", 
         )
         
             # Añadimos columnas con emojis y estilos
@@ -474,41 +473,52 @@ class Triatlon():
         if opcion.lower() == 'dni':
                 # Ordena por el dni
                 atletas_ordenados = sorted(atletas_nuevos,key=lambda atleta: atleta.dni)
-                # Recorremos la lista y sacamos al atleta
-                for atleta in atletas_ordenados:
-                    # Mostramos los atributos del atleta
-                    print(atleta.dni,atleta.nombre,atleta.genero)
-                
+                 
         elif opcion.lower() == 'nombre':
             # Ordena por el nombre
             atletas_ordenados = sorted(atletas_nuevos,key=lambda atleta: atleta.nombre)
-            for atleta in atletas_ordenados:
-                print(atleta.dni,atleta.nombre,atleta.genero)
-
+            
         elif opcion.lower() == 'apellido':
-             # Ordena por el apellido
+            # Ordena por el apellido
             atletas_ordenados = sorted(atletas_nuevos,key=lambda atleta: atleta.apellido)
-            # Recorremos la lista y sacamos al atleta
-            for atleta in atletas_ordenados:
-                # Mostramos los atributos del atleta
-                print(atleta.dni,atleta.nombre,atleta.genero)
-
+            
         elif opcion.lower() == 'fecha nacimiento':
-             # Ordena por el fecha de nacimiento
+            # Ordena por el fecha de nacimiento
             atletas_ordenados = sorted(atletas_nuevos,key=lambda atleta: atleta.fecha_nacimiento)
-            # Recorremos la lista y sacamos al atleta
-            for atleta in atletas_ordenados:
-                # Mostramos los atributos del atleta
-                print(atleta.dni,atleta.nombre,atleta.genero)
-
+            
         elif opcion.lower() == 'genero':
-             # Ordena por el genero
+            # Ordena por el genero
             atletas_ordenados = sorted(atletas_nuevos,key=lambda atleta: atleta.genero)
-            # Recorremos la lista y sacamos al atleta
-            for atleta in atletas_ordenados:
-                # Mostramos los atributos del atleta
-                print(atleta.dni,atleta.nombre,atleta.genero)
 
+        else:
+            console.print(Panel('No se puede ordenar por esa caracterictica'))
+
+        
+        if atletas_nuevos:
+            tabla = Table(
+                title="[bold cyan]📆 LISTA DE PARTICIPANTES[/]",
+                expand=True,
+                border_style="bold cyan",
+                box=rich.box.MINIMAL_DOUBLE_HEAD,
+                highlight=True,
+                header_style="bold cyan", 
+            )
+            tabla.add_column('🆔[#ffffff] Dni[/]',justify='left',style="bold green")
+            tabla.add_column('🧑[#ffffff] Nombre[/]',justify='center',style="bold yellow")
+            tabla.add_column('👤[#ffffff] Apellido[/]',justify='center',style="bold magenta")
+            tabla.add_column('🎂[#ffffff] Fecha nacimiento[/]',justify='center',style='bold #ff27f8')
+            tabla.add_column('🚻[#ffffff] Genero[/]',justify='right',style="bold blue")
+                
+            # Recorremos la lista y sacamos al atleta   
+            for atleta in atletas_nuevos:
+                    # Mostramos los atributos del atleta
+                    tabla.add_row(atleta.dni,
+                                atleta.nombre,
+                                atleta.apellido,
+                                str(atleta.fecha_nacimiento),
+                                atleta.genero)
+            console.print(tabla)
+        
             
             
 

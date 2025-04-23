@@ -62,7 +62,7 @@ def validar_solo_letras(campo_validar):
 
 
 # Le decimos al usuario si quiere datos de muestra
-opcion_datos = prompt('Quieres datos falsos para ver ejemplos? [S|N]',style=style).upper()
+opcion_datos = prompt('Quieres datos falsos para ver ejemplos? [S|N]: ',style=style).upper()
 prompt('Poner en pantalla completa para mejor visualizacion',style=style)
 
 if opcion_datos == 'S':
@@ -88,8 +88,8 @@ if opcion_datos == 'S':
     triatlon.agregar_participante("67890123F", "Ana", "Rodríguez", "1991-04-12", "F", 3)
     triatlon.agregar_participante("78901234G", "David", "González", "1989-08-25", "M", 3)
     triatlon.agregar_participante("89012345H", "Elena", "Pérez", "1994-06-07", "F", 3)
-triatlon.ordenar_por_opcion('fecha nacimiento')
-prompt()
+
+
 system('cls')    
 logo_centrado = centrar_menu(logo)
 console.print(logo_centrado)
@@ -367,7 +367,7 @@ def main():
                     triatlon.editar_atleta(id_evento,dni,nombre,apellido,fecha_nacimiento,genero) 
                     prompt(style=style)
                 elif opcion == "5":
-                    orden = prompt("Por que quieres ordenar",style=style)
+                    orden = prompt("Por que quieres ordenar: ",style=style)
                     triatlon.ordenar_por_opcion(orden)
                     prompt()
 
