@@ -459,8 +459,12 @@ class Triatlon():
             else:
                 console.print(Panel("[bold #C70039]No se encuentra la categoria[/]",border_style='bold #C70039'))
                 break
+
+
     def ordenar_por_opcion(self,opcion):
-        # dni, nombre, apellido, fecha_nacimiento, genero
+        """
+        Ordena todos los atletas con la opcion que se le pase como parametro
+        """
         atletas_nuevos = []
 
         for id_evento, evento in self.eventos.items():
@@ -468,28 +472,42 @@ class Triatlon():
                 atletas_nuevos.append(atleta)
 
         if opcion.lower() == 'dni':
+                # Ordena por el dni
                 atletas_ordenados = sorted(atletas_nuevos,key=lambda atleta: atleta.dni)
+                # Recorremos la lista y sacamos al atleta
                 for atleta in atletas_ordenados:
+                    # Mostramos los atributos del atleta
                     print(atleta.dni,atleta.nombre,atleta.genero)
                 
         elif opcion.lower() == 'nombre':
-            for id_evento, evento in self.eventos.items():
-                atletas_ordenados = sorted(evento.participantes.values(), 
-                                            key=lambda atleta: atleta.nombre)
+            # Ordena por el nombre
+            atletas_ordenados = sorted(atletas_nuevos,key=lambda atleta: atleta.nombre)
+            for atleta in atletas_ordenados:
+                print(atleta.dni,atleta.nombre,atleta.genero)
+
         elif opcion.lower() == 'apellido':
-            for id_evento, evento in self.eventos.items():
-                atletas_ordenados = sorted(evento.participantes.values(), 
-                                            key=lambda atleta: atleta.apellido)
+             # Ordena por el apellido
+            atletas_ordenados = sorted(atletas_nuevos,key=lambda atleta: atleta.apellido)
+            # Recorremos la lista y sacamos al atleta
+            for atleta in atletas_ordenados:
+                # Mostramos los atributos del atleta
+                print(atleta.dni,atleta.nombre,atleta.genero)
+
         elif opcion.lower() == 'fecha nacimiento':
-            for id_evento, evento in self.eventos.items():
-                atletas_ordenados = sorted(evento.participantes.values(), 
-                                            key=lambda atleta: atleta.fecha_nacimiento)
+             # Ordena por el fecha de nacimiento
+            atletas_ordenados = sorted(atletas_nuevos,key=lambda atleta: atleta.fecha_nacimiento)
+            # Recorremos la lista y sacamos al atleta
+            for atleta in atletas_ordenados:
+                # Mostramos los atributos del atleta
+                print(atleta.dni,atleta.nombre,atleta.genero)
+
         elif opcion.lower() == 'genero':
-            for id_evento, evento in self.eventos.items():
-                atletas_ordenados = sorted(evento.participantes.values(), 
-                                            key=lambda atleta: atleta.genero)
-                for atelta in atletas_ordenados:
-                    print(atelta.nombre,atelta.genero)
+             # Ordena por el genero
+            atletas_ordenados = sorted(atletas_nuevos,key=lambda atleta: atleta.genero)
+            # Recorremos la lista y sacamos al atleta
+            for atleta in atletas_ordenados:
+                # Mostramos los atributos del atleta
+                print(atleta.dni,atleta.nombre,atleta.genero)
 
             
             

@@ -77,18 +77,18 @@ if opcion_datos == 'S':
     triatlon.agregar_participante("12345672G", "Juan", "García", "1990-03-15", "M", 1)
     triatlon.agregar_participante("23456789B", "María", "López", "1992-07-22", "F", 1)
     triatlon.agregar_participante("56789012E", "Pepe", "Martínez", "1988-11-05", "M", 1)
-    triatlon.agregar_participante("56789012E", "Luis", "Martínez", "1988-11-05", "M", 1)
-    triatlon.agregar_participante("56789012E", "Carlos", "Martínez", "1988-11-05", "M", 1)
+    triatlon.agregar_participante("56782012E", "Luis", "Martínez", "1988-11-05", "M", 1)
+    triatlon.agregar_participante("56789092E", "Carlos", "Martínez", "1988-11-05", "M", 1)
 
     # Participantes para el evento 2 Madrid
     triatlon.agregar_participante("45678901D", "Laura", "Sánchez", "1995-02-18", "F", 2)
-    triatlon.agregar_participante("56789012E", "Pedro", "Fernández", "1993-09-30", "M", 2)
+    triatlon.agregar_participante("76789012E", "Pedro", "Fernández", "1993-09-30", "M", 2)
 
     # Participantes para el evento 3 Valencia
     triatlon.agregar_participante("67890123F", "Ana", "Rodríguez", "1991-04-12", "F", 3)
     triatlon.agregar_participante("78901234G", "David", "González", "1989-08-25", "M", 3)
     triatlon.agregar_participante("89012345H", "Elena", "Pérez", "1994-06-07", "F", 3)
-triatlon.ordenar_por_opcion('dni')
+triatlon.ordenar_por_opcion('fecha nacimiento')
 prompt()
 system('cls')    
 logo_centrado = centrar_menu(logo)
@@ -328,8 +328,8 @@ def main():
 
                     # Validar nombre 
                     while True:
-                        nombre = prompt('Introduce el nombre: ', style=style).capitalize()
-                        if validar_campo_vacio(nombre) and validar_solo_letras(nombre):
+                        nombre = prompt('Introduce el nombre: ', style=style).capitalize().strip()
+                        if nombre == "" or  validar_solo_letras(nombre) :
                             break
                         else:
                             continue
@@ -337,7 +337,7 @@ def main():
                     # Validar apellido sin espacios vacios
                     while True:
                         apellido = prompt('Introduce el apellido: ', style=style).capitalize()                        
-                        if validar_campo_vacio(apellido) and validar_solo_letras(apellido):
+                        if apellido == "" or  validar_solo_letras(apellido):
                             break
                         else:
                             continue
@@ -347,7 +347,8 @@ def main():
                         try:
                             fecha_nacimiento = prompt('Introduce la fecha de nacimiento [dd-mm-aa]: ', style=style)
                             # Combrobamos que este vacia por si no quiere editar los datos
-                            
+                            if fecha_nacimiento == "":
+                                break
                             datetime.strptime(fecha_nacimiento, '%d-%m-%Y')
                             break
                         except:
@@ -357,7 +358,7 @@ def main():
                     # Validar género
                     while True:
                         genero = prompt('Introduce el genero [M/F]: ', style=style).upper()
-                        if validar_campo_vacio(genero) and genero in ['M', 'F']:
+                        if genero == "" or genero in ['M', 'F']:
                             break
                         else:
                             console.print('[bold #C70039]Por favor, introduce M o F para el género.[/]')
@@ -365,8 +366,12 @@ def main():
 
                     triatlon.editar_atleta(id_evento,dni,nombre,apellido,fecha_nacimiento,genero) 
                     prompt(style=style)
-
                 elif opcion == "5":
+                    orden = prompt("Por que quieres ordenar",style=style)
+                    triatlon.ordenar_por_opcion(orden)
+                    prompt()
+
+                elif opcion == "6":
                     break
         # Menu de registros de tiempos
         elif opcion == "3":
@@ -521,6 +526,7 @@ def main():
                     # Mostramos toda la clasificacion de los tiempos
                     triatlon.clasificacion_general()
                     prompt(style=style)
+                    
 
                 elif opcion == "2":
                     # Auto completado con las categorias del triatlon
@@ -530,8 +536,9 @@ def main():
                     # Usamos el metodo para mostrar la clasificacion por categoria
                     triatlon.clasificacion_categoria(categoria)
                     prompt(style=style)
-
+                    
                 elif opcion == "3":
+                    system("cls")
                     break
 
         elif opcion == "5":

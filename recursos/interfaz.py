@@ -112,11 +112,12 @@ menu_atletas = """
 
 🔍 [#9a27ff]2. Buscar atleta
 
-✏️  [#ff27f8]3. Editar atleta
-
+✏️ [#ff27f8]3. Editar atleta
 💥 [#ff278c]4. Eliminar atleta
 
-🔙 [#ff2e27]5. Volver al menú principal[/]
+🏃[#ff9a27] 5. Mostrar todos los atletas[/]
+
+🔙 [#ff2e27]6. Volver al menú principal[/]
 """
 
 menu_atletas_alineado = Panel(
