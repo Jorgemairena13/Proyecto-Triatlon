@@ -182,11 +182,15 @@ class Triatlon():
 
     def editar_evento(self,id_evento, nombre, fecha, lugar, distancia):
         if id_evento in self.eventos:
-            del self.eventos[id_evento]
-            self.agregar_evento(id_evento, nombre, fecha, lugar, distancia)
-            self.eventos[id_evento].mostrar_evento()
+            evento = self.eventos[id_evento]
+            evento.nombre = nombre
+            evento.fecha = fecha
+            evento.lugar = lugar
+            evento.distancia = distancia
+            evento.mostrar_evento()
+            
         else:
-            console.print(Panel('No existe el evento que quieres editar',border_style='bold #C70039',width=30))
+            console.print(Panel('[bold #C70039]No existe el evento que quieres editar[/]',border_style='bold #C70039',width=30))
 
 
     def buscar_atleta(self,id_evento,dni):
@@ -204,6 +208,26 @@ class Triatlon():
         else:
              console.print(Panel("[bold #C70039]No se encuentra el evento[/]", border_style='bold #C70039'))
 
+    def eliminar_atleta(self, id_evento, dni):
+        """
+        Elimina un atleta de un evento dado su ID y DNI.
+        """
+        # 1) Verificar que el evento existe
+        if id_evento not in self.eventos:
+            console.print(Panel(f"[bold #C70039]El evento con id {id_evento} no existe[/]", border_style='bold #C70039', width=30))
+            return
+
+        # 2) Verificar que el atleta existe en ese evento
+        participantes = self.eventos[id_evento].participantes
+        if dni not in participantes:
+            console.print(Panel(f"[bold #C70039]No existe un atleta con DNI {dni} en el evento[/]", border_style='bold #C70039', width=30))
+            return
+
+        # 3) Eliminar y confirmar
+        nombre = participantes[dni].nombre
+        del participantes[dni]
+        console.print(Panel(f"[bold #28a745]Atleta {nombre} (DNI {dni}) eliminado con éxito[/]", border_style='bold #28a745', width=40))
+
 
     # Metodo para editar al atleta
     def editar_atleta(self, id_evento, dni, nombre='', apellido='', fecha_nacimiento='', genero=''):
@@ -218,7 +242,7 @@ class Triatlon():
         
         # Verificar que el atleta existe en ese evento
         if dni not in self.eventos[id_evento].participantes:
-            console.print(Panel(f"No existe un atleta con DNI {dni} en este evento", border_style='bold #C70039'))
+            console.print(Panel(f"[bold #C70039]No existe un atleta con DNI {dni} en este evento[/]", border_style='bold #C70039'))
             return
         
         # Obtener el atleta actual
@@ -251,7 +275,7 @@ class Triatlon():
         
         # Combrobamos que el dni exista en ese evento donde vamos a  registrar el timepo
         if dni not in self.eventos[id_evento].participantes:
-            console.print(Panel(f"No existe un atleta con DNI {dni} en este evento", border_style='bold #C70039'))
+            console.print(Panel(f"[bold #C70039]No existe un atleta con DNI {dni} en este evento[/]", border_style='bold #C70039'))
             return
         
         self.eventos[id_evento].participantes[dni].establecer_tiempo_natacion(tiempo) 
@@ -265,7 +289,7 @@ class Triatlon():
         
         # Combrobamos que el dni exista en ese evento donde vamos a  registrar el timepo
         if dni not in self.eventos[id_evento].participantes:
-            console.print(Panel(f"No existe un atleta con DNI {dni} en este evento", border_style='bold #C70039'))
+            console.print(Panel(f"[bold #C70039]No existe un atleta con DNI {dni} en este evento[/]", border_style='bold #C70039'))
             return
         # Registramos el tiempo del atleta
         self.eventos[id_evento].participantes[dni].establecer_tiempo_ciclismo(tiempo)
@@ -491,7 +515,8 @@ class Triatlon():
             atletas_ordenados = sorted(atletas_nuevos,key=lambda atleta: atleta.genero)
 
         else:
-            console.print(Panel('No se puede ordenar por esa caracterictica'))
+            console.print(Panel('[bold #C70039]No se puede ordenar por esa caracterictica[/]',border_style='bold #C70039'))
+            return
 
         
         if atletas_nuevos:

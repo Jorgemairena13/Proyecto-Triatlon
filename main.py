@@ -186,7 +186,7 @@ def main():
                             if lugar.isalpha():
                                 break
                             else:
-                                console.print("[bold red]Solo se pueden introducir fechas[/]")
+                                console.print("[bold red]Solo se pueden introducir letras[/]")
                         else:
                             continue
 
@@ -366,9 +366,29 @@ def main():
                             continue
 
                     triatlon.editar_atleta(id_evento,dni,nombre,apellido,fecha_nacimiento,genero) 
+
+                elif opcion == '4':
+                    while True:
+                        try:
+                            id_evento = int(prompt('ID del evento al que pertenece: ',completer = completar_ids(),style=style))
+                            break
+
+                        except:
+                            console.print(Panel("[bold #C70039]Introduce un numero!![/]",border_style='bold #C70039',width=30))
+                            continue
+
+                    while True:
+                        dni = prompt('Introduce el dni del aleta a editar:  ',completer  = completar_dni(id_evento),style=style)
+                        if validar_campo_vacio(dni) and validar_dni(dni):
+                            break
+                        else:
+                            continue
+
+                    triatlon.eliminar_atleta(id_evento,dni)
                     prompt(style=style)
                 elif opcion == "5":
-                    orden = prompt("Por que quieres ordenar: ",style=style)
+                    categorias_orden = FuzzyWordCompleter(['Dni','Nombre','Apellido','Fecha nacimiento','Genero'])
+                    orden = prompt("Por que quieres ordenar: ",style=style,completer=categorias_orden).lower()
                     triatlon.ordenar_por_opcion(orden)
                     prompt()
 
@@ -504,7 +524,7 @@ def main():
                             continue
                     while True:
                         # Pedimos y validamos el dni
-                        dni = prompt('Introduce el dni del atleta: ', style=style,completer=completar_dni())
+                        dni = prompt('Introduce el dni del atleta: ', style=style,completer=completar_dni(id_evento))
                         if validar_campo_vacio(dni) and validar_dni(dni):
                             break
                         else:

@@ -10,10 +10,6 @@ from rich.console import Console
 from datetime import datetime
 from time import sleep
 
-
-
-from rich.panel import Panel
-
 console = Console()
 
 logo = '''
