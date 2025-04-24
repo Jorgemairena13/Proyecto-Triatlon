@@ -87,18 +87,18 @@ class Evento:
         '''Muestra todos las  caractericticas del evento '''
         title_style = Estilo(color="white", bold=True)
         contenido = (
-            f"🆔 [bold green] ID:[/] [bold #69c4c9]{self.id}[/]\n"    
-            f"👤 [bold green] Nombre:[/] [bold #69c4c9]{self.nombre}[/]\n"
-            f"📅 [bold green] Fecha:[/] [bold #69c4c9]{self.fecha}[/]\n"
-            f"📍 [bold green] Lugar:[/] [bold #69c4c9]{self.lugar}[/]\n"
-            f"🛣️ [bold green]  Distancia:[/] [bold #69c4c9]{self.distancia} KM[/]\n"
+            f"🆔 [bold green]ID:[/] [bold #69c4c9]{self.id}[/]\n"    
+            f"👤 [bold green]Nombre:[/] [bold #69c4c9]{self.nombre}[/]\n"
+            f"📅 [bold green]Fecha:[/] [bold #69c4c9]{self.fecha}[/]\n"
+            f"📍 [bold green]Lugar:[/] [bold #69c4c9]{self.lugar}[/]\n"
+            f"🛣️ [bold green]Distancia:[/] [bold #69c4c9]{self.distancia} KM[/]"
         )
         panel = Panel(
             contenido,
             title=Text("🏆 Datos del Evento", style=title_style),
             border_style="green",
-            padding=(1, 2),  # Añadir espacio interno al panel
-            expand=False    # Evitar que el panel se expanda al ancho máximo
+            padding=(1, 2),  
+            expand=False    
         )
         console.print(panel)
         
@@ -510,7 +510,7 @@ class Triatlon():
             tabla.add_column('🚻[#ffffff] Genero[/]',justify='right',style="bold blue")
                 
             # Recorremos la lista y sacamos al atleta   
-            for atleta in atletas_nuevos:
+            for atleta in atletas_ordenados:
                     # Mostramos los atributos del atleta
                     tabla.add_row(atleta.dni,
                                 atleta.nombre,

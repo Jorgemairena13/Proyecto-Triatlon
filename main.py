@@ -217,6 +217,7 @@ def main():
 
                     prompt()
                 elif opcion == "5":
+                    system("cls")
                     break
 
         # Menu de atletas
@@ -372,6 +373,7 @@ def main():
                     prompt()
 
                 elif opcion == "6":
+                    system("cls")
                     break
         # Menu de registros de tiempos
         elif opcion == "3":
@@ -392,7 +394,7 @@ def main():
                             continue
                     
                     while True:
-                        dni = prompt('Introduce el dni del atleta: ', style=style)
+                        dni = prompt('Introduce el dni del atleta: ', style=style,completer=completar_dni(id_evento))
                         if validar_campo_vacio(dni) and validar_dni(dni):
                             break
                         else:
@@ -430,7 +432,7 @@ def main():
                             continue
 
                     while True:
-                        dni = prompt('Introduce el dni del atleta: ', style=style)
+                        dni = prompt('Introduce el dni del atleta: ', style=style,completer=completar_dni(id_evento))
                         if validar_campo_vacio(dni) and validar_dni(dni):
                             break
                         else:
@@ -466,7 +468,7 @@ def main():
                             continue
 
                     while True:
-                        dni = prompt('Introduce el dni del atleta: ', style=style)
+                        dni = prompt('Introduce el dni del atleta: ', style=style,completer=completar_dni(id_evento))
                         if validar_campo_vacio(dni) and validar_dni(dni):
                             break
                         else:
@@ -502,7 +504,7 @@ def main():
                             continue
                     while True:
                         # Pedimos y validamos el dni
-                        dni = prompt('Introduce el dni del atleta: ', style=style)
+                        dni = prompt('Introduce el dni del atleta: ', style=style,completer=completar_dni())
                         if validar_campo_vacio(dni) and validar_dni(dni):
                             break
                         else:
@@ -511,6 +513,7 @@ def main():
                     prompt(style=style)
 
                 elif opcion == "5":
+                    system("cls")
                     break
 
         # Menu de estadisicas
