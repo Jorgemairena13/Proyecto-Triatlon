@@ -15,7 +15,7 @@ Este proyecto es un sistema de gestión para eventos de triatlón que permite ad
 
 ## Requisitos del Sistema
 
-- Python 3.x
+- Python 3.12.6
 - Módulo `rich` para la interfaz de consola
 
 ## Instalación
